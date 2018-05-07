@@ -2,7 +2,9 @@
   "name": "smart-contract-hello-world",
   "version": "0.1.0",
   "description": "Hello world of smart contracts",
-  "scripts": {},
+  "scripts": {
+    "truffle-compile": "./node_modules/.bin/truffle compile"
+  },
   "keywords": [
     "smart-contract",
     "solidity",
