@@ -1,8 +1,8 @@
 'use strict';
 
-const HelloWorld = artifacts.require('HelloWorld.sol');
+const ExampleToken = artifacts.require('ExampleToken.sol');
 
 
 module.exports = function(deployer, network) {
-    deployer.deploy(HelloWorld, 'Gosha');
+    deployer.deploy(ExampleToken);
 };
