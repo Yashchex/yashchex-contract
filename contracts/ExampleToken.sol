@@ -11,7 +11,7 @@ contract ExampleToken is StandardToken, DetailedERC20 {
     }
 
     constructor() public
-        DetailedERC20("Test Token", "FTK", 18)
+        DetailedERC20("Test Token", "PKB", 18)
     {
         balances[msg.sender] = 1000 ether;
         totalSupply_ = balances[msg.sender];
