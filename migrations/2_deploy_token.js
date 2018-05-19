@@ -1,8 +1,8 @@
 'use strict';
 
-const ExampleToken = artifacts.require('ExampleToken.sol');
+const Yashchex = artifacts.require('Yashchex.sol');
 
 
 module.exports = function(deployer, network) {
-    deployer.deploy(ExampleToken);
+    deployer.deploy(Yashchex);
 };
