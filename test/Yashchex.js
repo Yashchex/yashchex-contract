@@ -9,6 +9,19 @@ contract('Yashchex', function(accounts) {
         const yashchex = await Yashchex.new();
     });
 
+    it('test get boxes', async function () {
+        const yashchex = await Yashchex.new();
+        const box1 = accounts[1]
+        const box2 = accounts[2]
+
+        await yashchex.addBox(box1);
+        await yashchex.addBox(box2);
+
+        const boxes = await yashchex.getBoxes();
+        assert.equal(boxes[0], box1);
+        assert.equal(boxes[1], box2);
+    });
+
     it('test write state', async function () {
         const yashchex = await Yashchex.new();
 

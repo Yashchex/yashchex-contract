@@ -10,6 +10,7 @@ contract Yashchex {
         uint256 timestamp;
     }
 
+    address[] boxes;
     mapping(address => address) private owner;
     mapping(address => State[]) private states;
 
@@ -26,6 +27,7 @@ contract Yashchex {
 
     function addBox(address box) public {
         if (owner[box] == 0) {
+            boxes.push(box);
             owner[box] = msg.sender;
         }
     }
@@ -50,6 +52,10 @@ contract Yashchex {
     function open(address box, string secret) public {
         require(secretHash[box] == keccak256(secret));
         canBeOpened[box] = true;
+    }
+
+    function getBoxes() public view returns(address[]) {
+        return boxes;
     }
 
     function ifCanBeOpened(address box) public view returns(bool) {
