@@ -42,7 +42,7 @@ contract Yashchex {
         receivers[box] = receiver;
     }
 
-    function setSecretHash(address box, string secret) public {
+    function setSecret(address box, string secret) public {
         require(receivers[box] == msg.sender);
         secretHash[box] = keccak256(secret);
     }
