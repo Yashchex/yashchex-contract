@@ -55,4 +55,20 @@ contract Yashchex {
     function ifCanBeOpened(address box) public view returns(bool) {
         return canBeOpened[box];
     }
+
+    function getStatesCount(address box) public view returns(uint) {
+        return states[box].length;
+    }
+
+    function getLastState(address box) public view returns(bool ok, bool opened, string location, string error, uint256 timestamp) {
+        uint length = states[box].length;
+        State storage s = states[box][length-1];
+        return (s.ok, s.opened, s.location, s.error, s.timestamp);
+    }
+
+    function getState(address box, uint index) public view returns(bool ok, bool opened, string location, string error, uint256 timestamp) {
+        require(index < states[box].length);
+        State storage s = states[box][index];
+        return (s.ok, s.opened, s.location, s.error, s.timestamp);
+    }
 }
