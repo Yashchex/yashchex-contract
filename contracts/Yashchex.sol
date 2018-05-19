@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity 0.4.23;
 
 contract Yashchex {
 
@@ -15,7 +15,7 @@ contract Yashchex {
 
     mapping (address => bool) canBeOpened;
     mapping(address => bytes32) private secretHash;
-    mapping(address => address) private receiver;
+    mapping(address => address) private receivers;
 
     modifier onlyOwner(address box) {
         require(owner[box] == msg.sender);
@@ -30,27 +30,15 @@ contract Yashchex {
         }
     }
 
-    function state_ok(string location) public {
-        states[msg.sender].push(State({ok : true, location : location, timestamp : now}));
+    function state(bool ok, bool opened, string location, string error) public {
+        states[msg.sender].push(State({ok : ok, opened : opened, location : location, error : error, timestamp : now}));
     }
 
-    function state_error(string location, string error) public {
-        states[msg.sender].push(State({ok : false, location : location, error : error, timestamp : now}));
-    }
-
-    function state_open(string location) public {
-        states[msg.sender].push(State({ok : true, opened : true, location : location, timestamp : now}));
-    }
-
-    function state_closed(string location) public {
-        states[msg.sender].push(State({ok : true, opened : false, location : location, timestamp : now}));
-    }
-
-    function close(address box) public onlyOwner {
+    function close(address box) public onlyOwner(box) {
         canBeOpened[box] = false;
     }
 
-    function setReceiver(address box, address receiver) public onlyOwner {
+    function setReceiver(address box, address receiver) public onlyOwner(box) {
         receivers[box] = receiver;
     }
 
