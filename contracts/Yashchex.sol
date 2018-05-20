@@ -2,8 +2,9 @@ pragma solidity ^0.4.2;
 
 contract Yashchex {
 
+    enum BoxStatus { GOOD_WAITING, GERCON_OPEN, WALL_DAMAGED, UNLOCKED, SAFE_DAMAGED, OPENED }
     struct State {
-        bool ok;
+        BoxStatus status;
         bool opened;
         string location;
         string error;
@@ -32,8 +33,8 @@ contract Yashchex {
         }
     }
 
-    function state(bool ok, bool opened, string location, string error) public {
-        states[msg.sender].push(State({ok : ok, opened : opened, location : location, error : error, timestamp : now}));
+    function state(BoxStatus status, bool opened, string location, string error) public {
+        states[msg.sender].push(State({status : status, opened : opened, location : location, error : error, timestamp : now}));
     }
 
     function close(address box) public onlyOwner(box) {
@@ -49,8 +50,8 @@ contract Yashchex {
         secretHash[box] = keccak256(secret);
     }
 
-    function open(address box, string secret) public {
-        require(secretHash[box] == keccak256(secret));
+    function open(address box, bytes32 _secretHash) public {
+        require(secretHash[box] == _secretHash);
         canBeOpened[box] = true;
     }
 
@@ -66,15 +67,15 @@ contract Yashchex {
         return states[box].length;
     }
 
-    function getLastState(address box) public view returns(bool ok, bool opened, string location, string error, uint256 timestamp) {
+    function getLastState(address box) public view returns(BoxStatus status, bool opened, string location, string error, uint256 timestamp) {
         uint length = states[box].length;
         State storage s = states[box][length-1];
-        return (s.ok, s.opened, s.location, s.error, s.timestamp);
+        return (s.status, s.opened, s.location, s.error, s.timestamp);
     }
 
-    function getState(address box, uint index) public view returns(bool ok, bool opened, string location, string error, uint256 timestamp) {
+    function getState(address box, uint index) public view returns(BoxStatus status, bool opened, string location, string error, uint256 timestamp) {
         require(index < states[box].length);
         State storage s = states[box][index];
-        return (s.ok, s.opened, s.location, s.error, s.timestamp);
+        return (s.status, s.opened, s.location, s.error, s.timestamp);
     }
 }
