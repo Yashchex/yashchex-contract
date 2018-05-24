@@ -45,9 +45,9 @@ contract Yashchex {
         receivers[box] = receiver;
     }
 
-    function setSecret(address box, string secret) public {
+    function setSecret(address box, string _secretHash) public {
         require(receivers[box] == msg.sender);
-        secretHash[box] = keccak256(secret);
+        secretHash[box] = _secretHash;
     }
 
     function open(address box, bytes32 _secretHash) public {
